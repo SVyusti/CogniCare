@@ -1,0 +1,6 @@
+#Environments
+venv/
+.env
+
+#Distribution and Packaging
+.idea/
