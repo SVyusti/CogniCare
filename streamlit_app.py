@@ -10,6 +10,18 @@ from pydub import AudioSegment
 from google.cloud import speech_v1p1beta1 as speech
 import io
 from docx import Document
+import requests
+from typing import Optional
+import warnings
+try:
+    from langflow.load import upload_file
+except ImportError:
+    warnings.warn("Langflow provides a function to help you upload files to the flow. Please install langflow to use it.")
+    upload_file = None
+
+BASE_API_URL = "http://127.0.0.1:7861/api/v1/run"
+FLOW_ID = "4944269f-96a2-41d2-a3cb-11191de533ba"
+ENDPOINT = "" # You can set a specific endpoint name in the flow settings
 
 # Load environment variables from .env file
 load_dotenv()
@@ -62,6 +74,46 @@ def save_to_docx(transcription, file_path):
     doc.save(file_path)
 
 
+# You can tweak the flow by adding a tweaks dictionary
+# e.g {"OpenAI-XXXXX": {"model_name": "gpt-4"}}
+TWEAKS = {
+  "RecursiveCharacterTextSplitter-BoGCK": {},
+  "AstraDB-I8vdZ": {},
+  "MistalAIEmbeddings-8JwAE": {},
+  "File-qyM1S": {}
+}
+
+#langflow integration
+def run_flow(message: str,
+  endpoint: str,
+  output_type: str = "chat",
+  input_type: str = "chat",
+  tweaks: Optional[dict] = None,
+  api_key: Optional[str] = None) -> dict:
+    """
+    Run a flow with a given message and optional tweaks.
+
+    :param message: The message to send to the flow
+    :param endpoint: The ID or the endpoint name of the flow
+    :param tweaks: Optional tweaks to customize the flow
+    :return: The JSON response from the flow
+    """
+    api_url = f"{BASE_API_URL}/{endpoint}"
+
+    payload = {
+        "input_value": message,
+        "output_type": output_type,
+        "input_type": input_type,
+    }
+    headers = None
+    if tweaks:
+        payload["tweaks"] = tweaks
+    if api_key:
+        headers = {"x-api-key": api_key}
+    response = requests.post(api_url, json=payload, headers=headers)
+    return response.json()
+
+#streamlit app
 st.title("CogniCare")
 st.caption("Your everyday companion")
 add_logo("http://placekitten.com/120/120")
@@ -102,3 +154,6 @@ if audio_bytes:
             )
     else:
         st.error("Transcription failed.")
+
+    response = run_flow(message="dummy text",endpoint=ENDPOINT or FLOW_ID,output_type="chat",input_type="chat",api_key=None)
+    print(response)
