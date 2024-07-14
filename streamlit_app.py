@@ -78,6 +78,7 @@ if audio_bytes:
     audio_location="audios/audio_file.wav"
     wav_path = "converted_audios/converted_audio.wav"
     os.makedirs(os.path.dirname(audio_location), exist_ok=True)
+    os.makedirs(os.path.dirname(wav_path), exist_ok=True)
     with open(audio_location, "wb") as audio_file:
         audio_file.write(audio_bytes)
     convert_mp3_to_mono_wav(audio_location, wav_path)
@@ -87,10 +88,12 @@ if audio_bytes:
         st.write(transcription)
 
         # Save transcription
-        save_to_docx(transcription, "transcription.docx")
+        doc_path = "transcript/transcription.docx"
+        os.makedirs(os.path.dirname(doc_path), exist_ok=True)
+        save_to_docx(transcription, doc_path)
 
         # Provide download links
-        with open("transcript/transcription.docx", "rb") as docx_file:
+        with open(doc_path, "rb") as docx_file:
             st.download_button(
                 label="Download Transcription as DOCX",
                 data=docx_file,
