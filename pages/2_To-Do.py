@@ -58,19 +58,6 @@ def run_flow(message: str,
 
 st.title("To Do for the day based on the Voice Recorded")
 
-to_do(
-        [(st.write, "☕ Take my coffee")],
-        "coffee",
-    )
-# to_do(
-#         [(st.write, "🥞 Have a nice breakfast")],
-#         "pancakes",
-#     )
-# to_do(
-#         [(st.write, ":train: Go to work!")],
-#         "work",
-#     )
-
 # Initialize the session state for the to-do list if it is not already initialized
 if 'to_do_list' not in st.session_state:
     st.session_state.to_do_list = []
@@ -99,6 +86,15 @@ try:
 except KeyError:
     print("no tasks today")
 # Input for new to-do items
+if todo_list:
+    todo_list=todo_list.split("\n")
+    print(todo_list)
+for todo in todo_list:
+    to_do(
+        [(st.write, todo)],
+        todo,
+    )
+
 new_item = st.text_input("Enter a new task", key="new_task")
 
 # Button for adding a new task; calls add_to_do when clicked.
