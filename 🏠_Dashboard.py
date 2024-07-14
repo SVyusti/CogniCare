@@ -18,6 +18,49 @@ try:
 except ImportError:
     warnings.warn("Langflow provides a function to help you upload files to the flow. Please install langflow to use it.")
     upload_file = None
+import base64
+
+
+def get_base64_of_bin_file(png_file):
+    with open(png_file, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+
+def build_markup_for_logo(
+    png_file,
+    background_position="45% 10%",
+    margin_top="10%",
+    image_width="50%",
+    image_height="",
+):
+    binary_string = get_base64_of_bin_file(png_file)
+    return """
+            <style>
+                [data-testid="stSidebarNav"] {
+                    background-image: url("data:image/png;base64,%s");
+                    background-repeat: no-repeat;
+                    background-position: %s;
+                    margin-top: %s;
+                    background-size: %s %s;
+                }
+            </style>
+            """ % (
+        binary_string,
+        background_position,
+        margin_top,
+        image_width,
+        image_height,
+    )
+
+def add_logos(png_file):
+    logo_markup = build_markup_for_logo(png_file)
+    st.markdown(
+        logo_markup,
+        unsafe_allow_html=True,
+    )
+add_logo("http://placekitten.com/120/120")
+add_logos("Cogni.png")
 
 BASE_API_URL = "http://127.0.0.1:7861/api/v1/run"
 FLOW_ID = "4944269f-96a2-41d2-a3cb-11191de533ba"
@@ -114,15 +157,14 @@ def run_flow(message: str,
     return response.json()
 
 #streamlit app
-st.title("CogniCare")
-st.caption("Your everyday companion")
-add_logo("http://placekitten.com/120/120")
-
+st.markdown("<h1 style='text-align: center;'>CogniCare</h1>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center;'>Enhancing lives of Dementia patients with AI</p>", unsafe_allow_html=True)
 hasClicked = card(
         title="Activate",
         text="Click to start the CogniCare",
         image="http://placekitten.com/300/250",
     )
+
 
 audio_bytes=audio_recorder()
 if audio_bytes:
