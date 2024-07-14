@@ -2,6 +2,7 @@
 env
 venv/
 .env
+logs/
 
 #Distribution and Packaging
 .idea/
