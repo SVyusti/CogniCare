@@ -4,7 +4,7 @@ from streamlit_extras.app_logo import add_logo
 from streamlit_card import card
 from streamlit_extras.stodo import to_do
 
-st.title("To Do for the day based on the Voice Recorded")
+st.title("To-Do for the day")
 
 to_do(
         [(st.write, "☕ Take my coffee")],
