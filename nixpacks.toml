@@ -1,0 +1,14 @@
+[phases.setup]
+commands = [
+  "pip install -r requirements.txt"
+]
+
+[phases.start]
+commands = [
+  "langflow run",
+  "streamlit run your_streamlit_app.py"
+]
+
+# You can also define environment variables if needed
+[env]
+ENV_VAR_NAME = "value"
