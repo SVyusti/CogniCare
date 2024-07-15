@@ -1,9 +1,0 @@
-{
-  "build": {
-    "builder": "python",
-    "buildCommand": "pip install -r requirements.txt"
-  },
-  "start": {
-    "cmd": "sh -c 'streamlit run \uD83C\uDFE0_Dashboard.py & langflow run'"
-  }
-}
