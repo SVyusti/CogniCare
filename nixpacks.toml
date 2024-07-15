@@ -3,10 +3,10 @@ commands = [
   "pip install -r requirements.txt"
 ]
 
-[phases.start]
+[start]
 commands = [
   "langflow run",
-  "streamlit run your_streamlit_app.py"
+  "streamlit run 🏠_Dashboard.py"
 ]
 
 # You can also define environment variables if needed
