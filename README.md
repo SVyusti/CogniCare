@@ -2,6 +2,12 @@
 
 CogniCare is a project designed to assist people with dementia by recording their daily conversations, processing them with a large language model (LLM) using Langflow, and providing a chatbot to answer questions and create to-do lists based on the conversations.
 
+![CogniCare](Cognicare.png)
+
+#### - [Video Demo](https://drive.google.com/file/d/1ip4gDInItUH4xYaa3fPDvWoEjQdiCv2O/view?usp=sharing)
+
+#### - [Presentation Slides](https://drive.google.com/file/d/1JLKt98VqthWGayncpnJxVjuErQkVyGBD/view?usp=sharing)
+
 ## Setup Instructions
 
 ### Prerequisites
